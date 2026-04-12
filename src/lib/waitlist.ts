@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import type { PrismaClient } from "@prisma/client";
 import { db } from "@/lib/db";
 import type { WaitlistSource } from "@/lib/waitlist-types";
@@ -40,10 +39,8 @@ export async function insertWaitlistSignup(row: WaitlistInsert) {
   const notes = optionalText(row.notes ?? null);
   const source = row.source;
 
-  await prisma.$executeRaw(
-    Prisma.sql`
-      INSERT INTO waitlist_signups (email, name, cert_number, target_allocation, notes, source)
-      VALUES (${email}, ${name}, ${certNumber}, ${targetAllocation}, ${notes}, ${source})
-    `
-  );
+  await prisma.$executeRaw`
+    INSERT INTO waitlist_signups (email, name, cert_number, target_allocation, notes, source)
+    VALUES (${email}, ${name}, ${certNumber}, ${targetAllocation}, ${notes}, ${source})
+  `;
 }

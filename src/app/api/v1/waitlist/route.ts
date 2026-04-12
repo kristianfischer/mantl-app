@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { insertWaitlistSignup } from "@/lib/waitlist";
 import type { WaitlistSource } from "@/lib/waitlist-types";
 
@@ -9,6 +8,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function isWaitlistSource(s: string): s is WaitlistSource {
   return s === "interested" || s === "prism_cert";
+}
+
+/** Prisma errors expose `code` (e.g. P2021). Avoid `import { Prisma }` — not exported on all generated clients. */
+function prismaErrorCode(e: unknown): string | null {
+  if (typeof e !== "object" || e === null || !("code" in e)) return null;
+  const c = (e as { code: unknown }).code;
+  return typeof c === "string" ? c : null;
 }
 
 export async function POST(req: Request) {
@@ -57,9 +63,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Waitlist is not available right now." }, { status: 503 });
     }
 
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      console.error("POST /api/v1/waitlist Prisma", e.code, e.meta, e.message);
-      if (e.code === "P2021" || e.code === "P2010") {
+    const pCode = prismaErrorCode(e);
+    if (pCode) {
+      console.error("POST /api/v1/waitlist Prisma", pCode, e);
+      if (pCode === "P2021" || pCode === "P2010") {
         return NextResponse.json(
           {
             error:
@@ -68,7 +75,7 @@ export async function POST(req: Request) {
           { status: 503 }
         );
       }
-      if (e.code === "P2002") {
+      if (pCode === "P2002") {
         return NextResponse.json({ error: "This email is already registered." }, { status: 409 });
       }
     } else {
