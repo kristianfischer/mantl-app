@@ -45,11 +45,7 @@ export default async function FundPage() {
           {fund.name}
         </h1>
         <p className="text-muted-foreground mt-3 max-w-2xl text-[15px] leading-relaxed">
-          A concentrated basket of PSA-graded assets — diversified across names and eras so you
-          participate in the upside of the hobby market without sourcing, grading, or storing slabs
-          yourself. This vintage is{" "}
-          <span className="text-foreground font-medium">fully allocated</span>; new investors access
-          the next raise.
+        Fifteen blue-chip cards across basketball, football, and baseball. A collection of legendary icons alongside premium inserts selected to represent the broadest cross-section of the sports card market. With each card PSA-authenticated and graded, it becomes the first product of its kind, an investable index for the sports card market. The simplest way to invest in what collectors already love.
         </p>
         <p className="text-muted-foreground mt-2 font-mono text-xs">
           Valuation snapshot · {formatDateIso(fund.valuationAsOf)}

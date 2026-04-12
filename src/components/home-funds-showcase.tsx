@@ -9,20 +9,20 @@ import { cn } from "@/lib/utils";
 
 const FUTURE_FUNDS = [
   {
-    name: "LeBron",
-    subtitle: "Career-defining Lakers, Cavs, and Team USA slabs",
+    name: "MANTL Heritage",
+    subtitle: "Vintage pre-2000 cards with decades of proven scarcity",
   },
   {
-    name: "College Hoops",
-    subtitle: "Blue-chip NCAA names and tournament-era issues",
+    name: "MANTL Catalyst",
+    subtitle: "High-upside cards tied to rising star trajectory",
   },
   {
-    name: "NFL Icons",
-    subtitle: "Quarterbacks, skill positions, and championship-era pieces",
+    name: "MANTL Prismatic",
+    subtitle: "Scarce premium inserts prized for art and rarity",
   },
   {
-    name: "Future MVP",
-    subtitle: "Rising stars and second-year breakout candidates",
+    name: "MANTL Frontier",
+    subtitle: "Collectibles from the world's fastest-growing sports",
   },
 ] as const;
 
