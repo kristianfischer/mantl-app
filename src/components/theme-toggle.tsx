@@ -1,38 +1,25 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const isLight = mounted && (resolvedTheme === "light" || theme === "light");
+  const { setTheme, resolvedTheme } = useTheme();
+  const isLight = resolvedTheme === "light";
 
   return (
     <button
       type="button"
       onClick={() => setTheme(isLight ? "dark" : "light")}
-      className="border-mantl-gold-border bg-mantl-card text-mantl-muted hover:border-mantl-gold-border-hover hover:shadow-mantl fixed top-7 right-7 z-50 flex cursor-pointer items-center gap-2.5 rounded-full border px-[18px] py-2 transition-all duration-500 ease-in-out select-none"
+      className={cn(
+        "fixed right-4 bottom-4 z-50 inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border",
+        "border-mantl-gold-border bg-card/85 text-mantl-muted backdrop-blur-sm transition-all duration-300",
+        "hover:border-mantl-gold-border-hover hover:text-foreground hover:shadow-mantl md:right-6 md:bottom-6"
+      )}
       aria-label={isLight ? "Switch to dark theme" : "Switch to light theme"}
     >
-      <span className="font-mono text-[10px] font-light uppercase tracking-[2px]">
-        Theme
-      </span>
-      <span
-        className="bg-mantl-gold-border relative h-[18px] w-9 rounded-[9px] transition-colors duration-500"
-        aria-hidden
-      >
-        <span
-          className={`bg-mantl-gold absolute top-[3px] left-[3px] h-3 w-3 rounded-full transition-transform duration-300 ease-out ${
-            isLight ? "translate-x-[18px]" : "translate-x-0"
-          }`}
-        />
-      </span>
+      {isLight ? <Moon className="size-4" aria-hidden /> : <Sun className="size-4" aria-hidden />}
     </button>
   );
 }

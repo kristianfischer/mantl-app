@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Email waitlist / interest signups from Interested and Prism pages.
+/// Table: waitlist_signups (create manually or `prisma db push` when ready).
+model WaitlistSignup {
+  id                String   @id @default(uuid()) @db.Uuid
+  email             String
+  name              String?
+  certNumber        String?  @map("cert_number")
+  targetAllocation  String?  @map("target_allocation")
+  notes             String?
+  source            String   @db.VarChar(32)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([email])
+  @@index([createdAt(sort: Desc)])
+  @@map("waitlist_signups")
+}

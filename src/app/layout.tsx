@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Syne, Geist } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Syne } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
-import "./globals.css";
+import { SiteHeader } from "@/components/site-header";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+import "./globals.css";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -25,8 +25,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MANTL",
-  description: "The foundation of value — collectibles into structured assets.",
+  title: "MANTL — Sports Card Fund",
+  description:
+    "A closed-end fund that holds graded sports cards. Own a fractional share of the portfolio as underlying assets appreciate.",
 };
 
 export default function RootLayout({
@@ -37,12 +38,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", syne.variable, plexSans.variable, plexMono.variable, "font-sans", geist.variable)}
+      className={cn("h-full", syne.variable, plexSans.variable, plexMono.variable)}
       data-theme="dark"
       suppressHydrationWarning
     >
       <body className="relative min-h-full font-sans antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <div className="relative z-10 flex min-h-screen flex-col">
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <ThemeToggle />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
