@@ -137,8 +137,7 @@ export default async function HoldingPage({ params }: Props) {
         <CardHeader>
           <CardTitle className="font-display text-lg">Value &amp; ownership</CardTitle>
           <CardDescription>
-            How this slab contributes to aggregate NAV — same inputs as the notebook&apos;s per-card
-            report.
+            How this slab contributes to aggregate NAV
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-0 text-sm">

@@ -6,28 +6,33 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { HomeAlphaFeature } from "@/components/home-alpha-feature";
 import { HomeFundsShowcase } from "@/components/home-funds-showcase";
+import { getFundSnapshot } from "@/lib/fund";
 import { cn } from "@/lib/utils";
 
-export default function Home() {
+export default async function Home() {
+  const fund = await getFundSnapshot();
+
   return (
     <div className="flex flex-col">
-      <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl flex-col items-center justify-center px-4 pb-20 text-center md:px-8">
-        <h1 className="font-display text-mantl-gold mt-14 text-[clamp(2.5rem,10vw,5.75rem)] font-medium tracking-[0.45em] uppercase transition-colors duration-500">
-          MANTL
-        </h1>
-        <div className="from-mantl-gold mt-9 h-0.5 w-14 bg-linear-to-r to-transparent" />
-        <p className="font-mono text-muted-foreground mt-6 text-[11px] font-light uppercase tracking-[5px]">
-          The foundation of value
-        </p>
-        <p className="text-muted-foreground mx-auto mt-10 max-w-4xl text-[15px] leading-relaxed">
-          MANTL is building a <strong className="text-foreground font-normal">family of funds</strong>
-          , each filled with rare, graded sports cards around a clear thesis — expensive pieces,
-          tailored sleeves, and room to grow.{" "}
-          <strong className="text-foreground font-normal">Alpha 1</strong> is live today; more themed
-          funds are on the roadmap — from all-time greats and college standouts to NFL icons and the
-          next generation of MVPs. Get on the waitlist for what opens next.
-        </p>
+      <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl flex-col items-center px-4 pb-20 md:px-8">
+        <div className="w-full text-center">
+          <h1 className="font-display text-mantl-gold mt-14 text-[clamp(2.5rem,10vw,5.75rem)] font-medium tracking-[0.45em] uppercase transition-colors duration-500">
+            MANTL
+          </h1>
+          <div className="from-mantl-gold mx-auto mt-9 h-0.5 w-14 bg-linear-to-r to-transparent" />
+          <p className="font-mono text-muted-foreground mt-6 text-[11px] font-light uppercase tracking-[5px]">
+            Grail slabs, pooled — ownership you can join
+          </p>
+          <p className="text-muted-foreground mx-auto mt-8 max-w-2xl text-[15px] leading-relaxed">
+            MANTL turns headline-grade cards into{" "}
+            <strong className="text-foreground font-normal">funds you can own a piece of</strong> —
+            not fantasy picks, but real sleeves with published NAV and disclosed holdings.
+          </p>
+        </div>
+
+        <HomeAlphaFeature fund={fund} />
         <HomeFundsShowcase />
       </section>
 
@@ -88,24 +93,37 @@ export default function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 pb-24 md:px-8">
-        <div className="ring-mantl-gold-border/80 bg-card/70 rounded-2xl border p-6 md:p-8">
-          <p className="text-mantl-gold-dark font-mono text-[10px] uppercase tracking-[3px]">
-            Next fund
-          </p>
-          <h3 className="font-display mt-2 text-2xl font-semibold tracking-tight">
-            Interested in the next MANTL fund?
-          </h3>
-          <p className="text-muted-foreground mt-3 max-w-2xl text-sm leading-relaxed">
-            Join the waitlist to get early access to upcoming offerings, allocation updates, and
-            fund launch details.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/interested"
-              className={cn(buttonVariants({ size: "lg" }), "inline-flex")}
-            >
-              Join waitlist
-            </Link>
+        <div
+          className={cn(
+            "relative overflow-hidden rounded-3xl border border-mantl-gold/35 p-8 md:p-10",
+            "bg-linear-to-br from-mantl-gold-fill/30 via-card/90 to-card/70 shadow-[0_24px_80px_-32px_rgba(212,170,60,0.25)]"
+          )}
+        >
+          <div
+            className="pointer-events-none absolute -left-20 bottom-0 size-64 rounded-full bg-[radial-gradient(circle_at_center,rgba(212,170,60,0.12),transparent_70%)]"
+            aria-hidden
+          />
+          <div className="relative">
+            <p className="text-mantl-gold-dark font-mono text-[10px] uppercase tracking-[0.2em]">
+              Next fund
+            </p>
+            <h3 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+              Get in line for the next sleeve
+            </h3>
+            <p className="text-muted-foreground mt-4 max-w-2xl text-[15px] leading-relaxed">
+              Waitlist for allocation news, launch timing, and new themed funds after Alpha 1.
+            </p>
+            <div className="mt-8">
+              <Link
+                href="/interested"
+                className={cn(
+                  buttonVariants({ size: "lg" }),
+                  "inline-flex gap-2 bg-mantl-gold px-8 text-primary-foreground shadow-[0_12px_40px_-12px_rgba(212,170,60,0.45)] hover:opacity-[0.97]"
+                )}
+              >
+                Join the waitlist
+              </Link>
+            </div>
           </div>
         </div>
       </section>

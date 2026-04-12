@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight, Lock } from "lucide-react";
+import { ChevronLeft, ChevronRight, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -27,39 +27,7 @@ const FUTURE_FUNDS = [
 ] as const;
 
 const GAP_PX = 16;
-const SLIDE_COUNT = 1 + FUTURE_FUNDS.length;
-
-function LiveFundSlide() {
-  return (
-    <Link
-      href="/fund"
-      className={cn(
-        "ring-mantl-gold-border/80 group bg-card/80 hover:border-mantl-gold-border relative flex min-h-[260px] h-full w-full flex-col rounded-2xl border p-5 text-left shadow-sm transition-colors sm:min-h-[280px] sm:p-6",
-        "hover:bg-card focus-visible:ring-mantl-gold focus-visible:ring-2 focus-visible:outline-none"
-      )}
-    >
-      <div className="flex min-h-0 flex-1 flex-col">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="font-display text-foreground text-lg font-semibold tracking-tight md:text-xl">
-              MANTL Alpha 1
-            </h3>
-            <p className="text-muted-foreground mt-2 text-sm leading-relaxed md:text-[15px]">
-              Our flagship sleeve — graded cards, live NAV, full holdings.
-            </p>
-          </div>
-          <Badge className="bg-mantl-gold/15 text-mantl-gold-dark border-mantl-gold-border/60 shrink-0 font-mono text-[10px] uppercase tracking-wide">
-            Live
-          </Badge>
-        </div>
-        <span className="text-mantl-gold mt-auto inline-flex items-center gap-1 pt-6 text-sm font-medium sm:pt-8">
-          View fund &amp; NAV
-          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-        </span>
-      </div>
-    </Link>
-  );
-}
+const SLIDE_COUNT = FUTURE_FUNDS.length;
 
 function FutureFundSlide({
   name,
@@ -69,7 +37,7 @@ function FutureFundSlide({
   subtitle: string;
 }) {
   return (
-    <div className="ring-mantl-gold-border/40 bg-card/40 relative flex min-h-[260px] h-full w-full flex-col overflow-hidden rounded-2xl border p-5 sm:min-h-[280px] sm:p-6">
+    <div className="ring-mantl-gold-border/40 bg-card/35 relative flex min-h-[240px] h-full w-full flex-col overflow-hidden rounded-2xl border border-dashed p-5 opacity-95 sm:min-h-[260px] sm:p-6">
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(212,170,60,0.1),transparent_55%)]"
         aria-hidden
@@ -197,14 +165,20 @@ export function HomeFundsShowcase() {
   const pages = maxIndex + 1;
 
   return (
-    <div className="mx-auto mt-12 w-full max-w-6xl">
-      <div className="flex flex-wrap items-end justify-center gap-2">
-        <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-[3px]">
-          Funds
+    <div className="mx-auto mt-16 w-full max-w-6xl md:mt-24">
+      <div className="text-center">
+        <p className="text-mantl-gold-dark font-mono text-[10px] uppercase tracking-[0.25em]">
+          After Alpha 1
+        </p>
+        <h2 className="font-display text-foreground mt-2 text-xl font-semibold tracking-tight md:text-2xl">
+          Themed funds in the pipeline
+        </h2>
+        <p className="text-muted-foreground mx-auto mt-2 max-w-xl text-sm leading-relaxed">
+          Roadmap sleeves — not live yet. Get notified when we open a new raise.
         </p>
       </div>
 
-      <div className="mt-4 flex w-full items-stretch justify-center gap-2 sm:gap-4">
+      <div className="mt-8 flex w-full items-stretch justify-center gap-2 sm:gap-4">
         <button
           type="button"
           aria-label="Previous funds"
@@ -237,9 +211,6 @@ export function HomeFundsShowcase() {
                 transform: `translateX(-${clampedIndex * stepPx}px)`,
               }}
             >
-              <div className="shrink-0" style={{ width: cardWidth }}>
-                <LiveFundSlide />
-              </div>
               {FUTURE_FUNDS.map((f) => (
                 <div key={f.name} className="shrink-0" style={{ width: cardWidth }}>
                   <FutureFundSlide name={f.name} subtitle={f.subtitle} />
