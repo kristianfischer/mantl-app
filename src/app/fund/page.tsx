@@ -24,6 +24,9 @@ import { buildFundChartSeries, getFundNavHistory } from "@/lib/fund-api";
 import { formatDateIso, formatPct, formatUsd } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
+/** Always read latest NAV / holdings from the database after nightly valuation. */
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Fund — MANTL",
   description:

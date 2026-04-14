@@ -18,6 +18,9 @@ import { cn } from "@/lib/utils";
 
 type Props = { params: Promise<{ cert: string }> };
 
+/** Per-cert pages must reflect latest marks, not build-time snapshot. */
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const fund = await getFundSnapshot();
   return fund.cards

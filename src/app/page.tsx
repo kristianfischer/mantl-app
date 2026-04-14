@@ -11,6 +11,9 @@ import { HomeFundsShowcase } from "@/components/home-funds-showcase";
 import { getFundSnapshot } from "@/lib/fund";
 import { cn } from "@/lib/utils";
 
+/** DB-backed fund data must not be frozen at deploy time (see fund + holdings pages). */
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const fund = await getFundSnapshot();
 
