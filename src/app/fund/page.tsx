@@ -240,11 +240,6 @@ export default async function FundPage() {
                         {c.year} {c.brand} — {c.player}
                         {c.cardNumber !== "—" ? ` #${c.cardNumber}` : ""}
                       </div>
-                      {c.certNumber && (
-                        <div className="text-muted-foreground font-mono text-xs">
-                          Cert {c.certNumber}
-                        </div>
-                      )}
                       {c.status === "pending" && (
                         <Badge variant="secondary" className="mt-1 font-mono text-[10px] uppercase">
                           Pending
