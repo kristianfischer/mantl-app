@@ -117,14 +117,6 @@ export default async function HoldingPage({ params }: Props) {
       )}
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        <Card className="ring-mantl-gold-border/80 bg-card/80">
-          <CardHeader className="pb-2">
-            <CardDescription className="font-mono text-[10px] uppercase tracking-wider">
-              PSA certification
-            </CardDescription>
-            <CardTitle className="font-mono text-lg tabular-nums">{holding.certNumber}</CardTitle>
-          </CardHeader>
-        </Card>
 
         <Card className="ring-mantl-gold-border/80 bg-card/80">
           <CardHeader className="pb-2">

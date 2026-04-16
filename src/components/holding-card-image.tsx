@@ -162,7 +162,7 @@ function FrontBackSlideshow({
       )}
 
       <p className="text-muted-foreground border-border/60 mt-2 border-t px-3 py-2 text-center text-[11px]">
-        {current.label} · Cert {certNumber}
+        {current.label}
       </p>
     </div>
   );
@@ -240,7 +240,6 @@ export function HoldingCardImage({
           {grade != null && (
             <p className="font-mono text-xs uppercase tracking-[2px]">PSA {grade}</p>
           )}
-          <p className="text-muted-foreground font-mono text-xs">Cert {certNumber}</p>
         </div>
       </div>
     </div>
@@ -251,12 +250,12 @@ export function HoldingCardImage({
       front && {
         src: front,
         label: "Front",
-        alt: `Front — ${player}, cert ${certNumber}`,
+        alt: `Front — ${player}`,
       },
       back && {
         src: back,
         label: "Back",
-        alt: `Back — ${player}, cert ${certNumber}`,
+        alt: `Back — ${player}`,
       },
     ].filter(Boolean) as { src: string; label: string; alt: string }[];
 
