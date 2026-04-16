@@ -53,6 +53,20 @@ export default async function HoldingPage({ params }: Props) {
     holding.fairValue != null && fund.grossPortfolioValueUsd > 0
       ? holding.fairValue / fund.grossPortfolioValueUsd
       : 0;
+  const valueMoveUsd =
+    holding.fairValue != null ? holding.fairValue - holding.acquisitionCost : null;
+  const valueMovePct =
+    valueMoveUsd != null && holding.acquisitionCost > 0
+      ? valueMoveUsd / holding.acquisitionCost
+      : null;
+  const valueMoveTone =
+    valueMoveUsd == null
+      ? "text-muted-foreground"
+      : valueMoveUsd > 0
+        ? "text-emerald-400"
+        : valueMoveUsd < 0
+          ? "text-rose-400"
+          : "text-foreground";
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 md:px-8 md:py-14">
@@ -117,7 +131,6 @@ export default async function HoldingPage({ params }: Props) {
       )}
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
-
         <Card className="ring-mantl-gold-border/80 bg-card/80">
           <CardHeader className="pb-2">
             <CardDescription className="font-mono text-[10px] uppercase tracking-wider">
@@ -125,6 +138,22 @@ export default async function HoldingPage({ params }: Props) {
             </CardDescription>
             <CardTitle className="font-display text-lg">#{holding.cardNumber}</CardTitle>
           </CardHeader>
+        </Card>
+
+        <Card className="ring-mantl-gold-border/80 bg-card/80">
+          <CardHeader className="pb-2">
+            <CardDescription className="font-mono text-[10px] uppercase tracking-wider">
+              Since fund start
+            </CardDescription>
+            <CardTitle className={cn("font-display text-lg tabular-nums", valueMoveTone)}>
+              {valueMoveUsd != null ? formatUsd(valueMoveUsd) : "—"}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <p className="text-muted-foreground text-xs">
+              {valueMovePct != null ? `${formatPct(valueMovePct)} vs entry` : "Return unavailable"}
+            </p>
+          </CardContent>
         </Card>
       </div>
 
