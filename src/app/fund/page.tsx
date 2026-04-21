@@ -37,6 +37,22 @@ export default async function FundPage() {
   const fund = await getFundSnapshot();
   const navHistory = await getFundNavHistory();
   const chartSeries = buildFundChartSeries(fund, navHistory);
+  const holdingsWithReturn = fund.cards.map((c) => {
+    const returnUsd = c.fairValue != null ? c.fairValue - c.acquisitionCost : null;
+    const returnPct =
+      c.fairValue != null && c.acquisitionCost > 0 ? (c.fairValue - c.acquisitionCost) / c.acquisitionCost : null;
+    return { ...c, returnUsd, returnPct };
+  });
+  const moversEligible = holdingsWithReturn.filter((c) => c.status === "active" && c.returnPct != null);
+  const topGainers = [...moversEligible].sort((a, b) => (b.returnPct ?? 0) - (a.returnPct ?? 0)).slice(0, 2);
+  const topDecliners = [...moversEligible].sort((a, b) => (a.returnPct ?? 0) - (b.returnPct ?? 0)).slice(0, 2);
+  const sortedHoldings = [...holdingsWithReturn].sort((a, b) => {
+    if (a.status !== b.status) return a.status === "active" ? -1 : 1;
+    if (a.returnPct == null && b.returnPct == null) return 0;
+    if (a.returnPct == null) return 1;
+    if (b.returnPct == null) return -1;
+    return b.returnPct - a.returnPct;
+  });
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:px-8 md:py-14">
@@ -207,7 +223,7 @@ export default async function FundPage() {
             Full holdings
           </h2>
           <p className="text-muted-foreground mt-1 max-w-2xl text-sm">
-            Every line in the fund — cost, fair value, and confidence — in one place.
+            Every line in the fund — cost, fair value, and return since acquisition — in one place.
           </p>
         </div>
 
@@ -225,14 +241,16 @@ export default async function FundPage() {
                 <TableHead className="font-mono text-[10px] uppercase tracking-wider text-right">
                   Fair value
                 </TableHead>
-                <TableHead className="font-mono text-[10px] uppercase tracking-wider">Confidence</TableHead>
+                <TableHead className="font-mono text-[10px] uppercase tracking-wider text-right">
+                  Return
+                </TableHead>
                 <TableHead className="text-right font-mono text-[10px] uppercase tracking-wider">
                   Detail
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {fund.cards.map((c, idx) => {
+              {sortedHoldings.map((c, idx) => {
                 return (
                   <TableRow key={c.certNumber ?? `pending-${idx}`}>
                     <TableCell>
@@ -259,13 +277,22 @@ export default async function FundPage() {
                         "—"
                       )}
                     </TableCell>
-                    <TableCell>
-                      {c.confidence ? (
-                        <Badge variant="outline" className="font-mono text-[10px] uppercase">
-                          {c.confidence}
-                        </Badge>
+                    <TableCell className="text-right tabular-nums">
+                      {c.returnPct != null ? (
+                        <span
+                          className={cn(
+                            "font-medium",
+                            c.returnPct > 0
+                              ? "text-emerald-400"
+                              : c.returnPct < 0
+                                ? "text-rose-400"
+                                : "text-foreground"
+                          )}
+                        >
+                          {formatPct(c.returnPct)}
+                        </span>
                       ) : (
-                        "—"
+                        <span className="text-muted-foreground">—</span>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
